@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\BotTrap\Controller;
 
 use AstrX\BotTrap\BotTrapConfig;
 use AstrX\BotTrap\BotTrapLogRepository;
@@ -10,8 +10,9 @@ use AstrX\I18n\Translator;
 use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
 use AstrX\Routing\UrlGenerator;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Bot-trap (honeypot labyrinth) — rendered through the normal site shell
@@ -48,7 +49,7 @@ final class BotTrapController extends AbstractController
 {
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly Request                $request,
         private readonly BotTrapConfig          $config,
         private readonly BotTrapLogRepository   $log,

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\BotTrap\Controller;
 
 use AstrX\Auth\Gate;
 use AstrX\Auth\Permission;
@@ -18,8 +18,9 @@ use AstrX\Result\Result;
 use AstrX\Routing\UrlGenerator;
 use AstrX\Session\FlashBag;
 use AstrX\Session\PrgHandler;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Admin — Bot-trap control panel + log viewer.
@@ -47,7 +48,7 @@ final class AdminTrapController extends AbstractController
 
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly Request                $request,
         private readonly Gate                   $gate,
         private readonly Translator             $t,

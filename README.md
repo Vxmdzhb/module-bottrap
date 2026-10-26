@@ -2,6 +2,8 @@
 
 Honeypot link and labyrinth that catches crawlers ignoring robots rules — the **Bot trap** module of [AstrX](https://github.com/Vxmdzhb/astrx).
 
+![The bot trap settings and its recent hits](docs/screenshot.png)
+
 - Module key: `bottrap` (switch it on in the site's `resources/config/Modules.config.php`)
 - Pages: `admin_trap`, `bot_trap`
 - Requires: `astrx/cms`, `astrx/framework`, `astrx/library`

@@ -104,11 +104,9 @@ final class AdminTrapController extends AbstractController
             return;
         }
 
-        // R9: the bot-trap is a system-level anti-abuse control (its tarpit is a
-        // privacy/abuse defence on a Tor deployment). Entry is ADMIN_ACCESS so a
-        // MOD may view it, but WRITING it requires ADMIN_CONFIG_SYSTEM (which a MOD
-        // lacks) — otherwise a moderator could silently disable the trap. Mirrors
-        // the AdminSearch/AdminLanguage config re-gates.
+        // The bot trap is a system-level anti-abuse control. Moderators (who have
+        // ADMIN_ACCESS) may look at it, but changing it needs ADMIN_CONFIG_SYSTEM, so
+        // a moderator can't switch it off. Same as the search and language pages.
         if ($this->gate->cannot(AdminPermission::CONFIG_SYSTEM)) {
             $this->flash->set('error', $this->t->t('admin.forbidden'));
             return;

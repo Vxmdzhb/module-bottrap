@@ -25,20 +25,18 @@ final class BotTrapConfig
     public const int MAX_LINKS_PER_PAGE = 20;
 
     /**
-     * How many requests may sit inside the tarpit sleep() at the same time.
+     * How many requests may sit in the tarpit sleep() at the same time.
      *
-     * sleep() on an unauthenticated public URL pins a php-fpm worker for its
-     * whole duration. With the shipped tarpit_seconds=1 and a typical pool of
-     * 5-10 workers, a dozen concurrent GETs of /trap — which anyone can issue:
-     * no session, no captcha, no cost — occupy every worker and the SITE stops
-     * answering. The anti-bot lever was a denial-of-service lever pointed at
-     * ourselves. BotTrapController claims one of this many lock slots before
-     * sleeping and skips the delay when none is free, so the trap still wastes a
-     * crawler's time while the pool keeps a floor of free workers.
+     * sleep() on a public URL holds a php-fpm worker for its whole duration, and
+     * anyone can request /trap for free. Without a limit, a dozen concurrent hits
+     * would take every worker and the site would stop answering. So
+     * BotTrapController claims one of this many slots before sleeping and skips
+     * the delay when none is free: the trap still wastes a crawler's time, and the
+     * pool always keeps free workers.
      *
-     * A hard constant, not a config key: AdminTrapController rewrites the
-     * BotTrapConfig section whole from a fixed key list, so a new key would be
-     * silently dropped the first time an admin saved the bot-trap page.
+     * A constant, not a config key: AdminTrapController rewrites the BotTrapConfig
+     * section from a fixed list of keys, so a new key would be dropped on the
+     * first save.
      */
     public const int MAX_CONCURRENT_TARPITS = 2;
 

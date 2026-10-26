@@ -121,18 +121,13 @@ final class BotTrapController extends AbstractController
      * sleep($seconds), but only while fewer than
      * BotTrapConfig::MAX_CONCURRENT_TARPITS requests are already sleeping.
      *
-     * Why this exists: /trap is public, unauthenticated and free to request, and
-     * a bare sleep() pins one php-fpm worker per hit. On a pool of, say, eight
-     * workers, eight simultaneous GETs of /trap with tarpit_seconds=10 take the
-     * entire site offline for ten seconds — repeatable indefinitely by one
-     * client with a for-loop. The trap is supposed to cost the CRAWLER time.
+     * /trap is public and free to request, and each sleep() holds a php-fpm
+     * worker. The trap should cost the crawler time, not take the site offline.
      *
-     * The bound is a set of lock files claimed with flock(LOCK_EX|LOCK_NB). No
-     * free slot means no sleep: the bot still gets its maze page, just without
-     * the delay, which is the correct thing to give up under load. Locks are
-     * released by fclose() — and by the kernel if the worker dies mid-sleep, so
-     * a crashed request cannot leak a slot permanently the way a counter file
-     * would.
+     * The limit is a set of lock files claimed with flock(LOCK_EX|LOCK_NB). With
+     * no free slot there is no sleep: the bot still gets its maze page, just
+     * without the delay. fclose() releases a slot, and so does the kernel if the
+     * worker dies, so a crashed request can't hold one forever.
      */
     private function tarpitWithinConcurrencyBound(int $seconds): void
     {

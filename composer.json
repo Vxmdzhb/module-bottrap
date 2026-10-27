@@ -1,6 +1,7 @@
 {
     "name": "astrx/module-bottrap",
     "description": "Honeypot link and labyrinth that catches crawlers ignoring robots rules",
+    "license": "LicenseRef-DoWhatever",
     "type": "astrx-module",
     "keywords": [
         "astrx",
